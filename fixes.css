@@ -1,0 +1,37 @@
+/* Diagram corrections: each vehicle is placed inside the road, not on a corner. */
+.intersection-art .car-a {
+  left: calc(50% + 10px);
+  top: 7%;
+}
+
+.intersection-art .car-b {
+  left: calc(50% + 17px);
+  right: auto;
+  top: calc(50% - 6px);
+}
+
+/* Signals sit just outside the conflict area, while the arrows show each path. */
+.traffic-light { position:absolute; z-index:5; width:16px; padding:3px; border:2px solid #30433c; border-radius:5px; background:#17231f; display:grid; gap:2px; }
+.traffic-light i { display:block; width:6px; height:6px; border-radius:50%; background:#5a665f; }
+.traffic-light i:nth-child(1).on { background:#f16643; box-shadow:0 0 7px #f16643; }
+.traffic-light i:nth-child(2).on { background:#f1c94c; box-shadow:0 0 7px #f1c94c; }
+.traffic-light i:nth-child(3).on { background:#a9e363; box-shadow:0 0 7px #a9e363; }
+.traffic-light.north { top:58px; left:calc(50% + 63px); }
+.traffic-light.south { bottom:58px; left:calc(50% - 79px); }
+.traffic-light.east { top:calc(50% + 50px); right:57px; transform:rotate(90deg); }
+.traffic-light.west { top:calc(50% - 76px); left:57px; transform:rotate(90deg); }
+.movement { position:absolute; z-index:4; color:#fff; font:600 22px/1 var(--mono); text-shadow:0 1px 3px #17231f; }
+.movement-a { left:calc(50% + 18px); top:73px; }
+.movement-b { left:calc(50% + 76px); top:calc(50% + 7px); }
+.movement-you { left:calc(50% - 11px); bottom:75px; }
+/* A red-light scenario changes the southbound approach to red. */
+.intersection-art[data-scene="red"] .traffic-light.south i { background:#5a665f; box-shadow:none; }
+.intersection-art[data-scene="red"] .traffic-light.south i:first-child { background:#f16643; box-shadow:0 0 7px #f16643; }
+
+/* Right-hand traffic: every approaching vehicle uses the lane on its right. */
+.intersection-art .car-a { left: calc(50% - 48px); } /* southbound, west half */
+.intersection-art .you-car { left: calc(50% + 9px); } /* northbound, east half */
+.intersection-art .car-b { left: auto; right: 17%; top: calc(50% - 57px); } /* westbound, north half */
+.intersection-art .movement-a { left: calc(50% - 40px); }
+.intersection-art .movement-b { right: 74px; left: auto; top: calc(50% - 36px); }
+.intersection-art .movement-you { left: calc(50% + 20px); }
