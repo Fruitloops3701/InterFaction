@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7f3" />
+    <title>Right Way — Intersection practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#practice" aria-label="Right Way home"><span class="brand-mark">↗</span>right way</a>
+        <nav aria-label="Main navigation">
+          <button class="nav-link active" data-view="practice">Practice</button>
+          <button class="nav-link" data-view="study">Study deck</button>
+          <button class="nav-link" data-view="guide">Quick guide</button>
+        </nav>
+        <button class="icon-button" id="reset-progress" title="Reset progress" aria-label="Reset progress">↺</button>
+      </header>
+
+      <main>
+        <section class="view active" id="practice-view">
+          <div class="practice-header">
+            <div>
+              <p class="eyebrow">INTERSECTION DRILLS <span>•</span> <span id="session-count">01</span> OF <span id="session-total">09</span></p>
+              <h1>Make the right call,<br /><em>before the road does.</em></h1>
+            </div>
+            <div class="streak-card"><span class="streak-fire">✦</span><strong id="streak">0</strong><small>correct streak</small></div>
+          </div>
+
+          <div class="progress-line" aria-label="Practice progress"><div id="progress-fill"></div></div>
+          <div class="practice-layout">
+            <article class="scene-card">
+              <div class="scene-topline"><span id="scene-tag">RIGHT OF WAY</span><span id="scene-number">SCENE 01</span></div>
+              <div class="intersection-art" id="intersection-art" aria-hidden="true">
+                <div class="road horizontal"></div><div class="road vertical"></div>
+                <div class="corner nw"></div><div class="corner ne"></div><div class="corner sw"></div><div class="corner se"></div>
+                <div class="signal red">●</div><div class="signal yellow">●</div><div class="signal green">●</div>
+                <div class="car car-a">▰</div><div class="car car-b">▰</div><div class="you-car">YOU</div>
+                <div class="pedestrian">♙</div>
+              </div>
+              <p class="scene-caption" id="scene-caption"></p>
+            </article>
+
+            <section class="question-card" aria-live="polite">
+              <p class="question-label">WHAT DO YOU DO?</p>
+              <h2 id="question">Loading scenario…</h2>
+              <div class="answers" id="answers"></div>
+              <div class="feedback" id="feedback" hidden>
+                <div class="feedback-icon" id="feedback-icon">✓</div>
+                <div><strong id="feedback-title"></strong><p id="feedback-text"></p></div>
+              </div>
+              <button class="next-button" id="next-button" disabled>Choose an answer <span>→</span></button>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="study-view">
+          <div class="page-intro"><p class="eyebrow">THE BASICS, IN PLAIN ENGLISH</p><h1>Build your mental<br /><em>road map.</em></h1><p>Review the patterns first, then test yourself. Tap a card to reveal its detail.</p></div>
+          <div class="study-grid" id="study-grid"></div>
+        </section>
+
+        <section class="view" id="guide-view">
+          <div class="page-intro"><p class="eyebrow">FAST REFERENCE</p><h1>A calm order of<br /><em>operations.</em></h1></div>
+          <div class="guide-panel">
+            <ol><li><span>01</span><div><strong>Scan the whole intersection.</strong><p>Look for signs, signals, people walking, cyclists, and the paths of other vehicles.</p></div></li><li><span>02</span><div><strong>Obey the traffic control.</strong><p>A police officer, signal, or sign comes before the usual right-of-way rules.</p></div></li><li><span>03</span><div><strong>Yield before you turn across traffic.</strong><p>Especially when turning left, wait for a safe gap and a clear crosswalk.</p></div></li><li><span>04</span><div><strong>When in doubt, let it go.</strong><p>Right of way is given, not taken. A few seconds is always worth the margin.</p></div></li></ol>
+            <aside><div class="caution-symbol">!</div><h3>Keep it local</h3><p>Rules and signs vary by country, state, and municipality. This is practice, not legal or driving instruction—confirm the rules with your local driver handbook.</p></aside>
+          </div>
+        </section>
+      </main>
+      <footer><span>RIGHT WAY / PRACTICE SLOW, DRIVE AWARE</span><span id="footer-score">0 mastered</span></footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
