@@ -76,3 +76,6 @@
 .focus-note strong,.focus-note small { display:block; }
 .focus-note strong { font-size:13px; }
 .focus-note small { margin-top:2px; color:var(--muted); font-size:11px; }
+
+/* Feedback is shown only after an answer is chosen. */
+.feedback[hidden] { display:none; }
