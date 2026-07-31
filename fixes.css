@@ -90,3 +90,17 @@
 .traffic-light.west { top:calc(50% + 50px); left:52px; }
 /* In the protected-left-turn drill, the south signal includes its green arrow. */
 .intersection-art[data-scene="green"] .traffic-light.south::after { content:'←'; position:absolute; top:20px; left:-2px; color:#a9e363; font:700 16px/1 var(--sans); text-shadow:0 0 7px #a9e363; }
+
+/* Center dashed dividers by their own road dimensions. */
+.intersection-art .road.horizontal::after { top:calc(50% - 1.5px); }
+.intersection-art .road.vertical::after { left:calc(50% - 1.5px); }
+.intersection-art .corner { display:none; }
+
+/* Full zebra crosswalks sit inside the roadway at every intersection edge. */
+.crosswalk { position:absolute; z-index:2; pointer-events:none; }
+.crosswalk-north,.crosswalk-south { width:118px; height:14px; left:calc(50% - 59px); background:repeating-linear-gradient(90deg,#f6f3dd 0 7px,transparent 7px 12px); }
+.crosswalk-north { top:83px; }
+.crosswalk-south { top:173px; }
+.crosswalk-east,.crosswalk-west { width:14px; height:104px; top:83px; background:repeating-linear-gradient(0deg,#f6f3dd 0 7px,transparent 7px 12px); }
+.crosswalk-west { left:calc(50% - 59px); }
+.crosswalk-east { left:calc(50% + 45px); }
