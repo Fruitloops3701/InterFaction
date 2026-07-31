@@ -69,3 +69,10 @@
 .intersection-art .car-b { top:calc(50% - 52px); }
 .intersection-art .movement-a { left:calc(50% - 40px); }
 .intersection-art .movement-you { left:calc(50% + 22px); }
+
+/* A quiet status card replaces the competitive streak counter. */
+.focus-note { min-width:152px; padding:13px 15px; display:flex; gap:9px; align-items:center; border:1px solid var(--line); border-radius:12px; background:var(--card); }
+.focus-note > span { color:var(--orange); font-size:17px; }
+.focus-note strong,.focus-note small { display:block; }
+.focus-note strong { font-size:13px; }
+.focus-note small { margin-top:2px; color:var(--muted); font-size:11px; }

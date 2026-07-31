@@ -9,27 +9,28 @@ const scenarios = [
   {tag:'STOP SIGN', art:'stop', caption:'You are first at a stop sign. A cyclist is approaching in the bike lane you need to cross to turn.', q:'What is the safest next step?', a:['Turn before the cyclist reaches the intersection','Yield to the cyclist before crossing their path','Drive partly into the bike lane to make space'], correct:1, note:'Before turning across a bike lane, check carefully and yield to cyclists proceeding through the intersection.'},
   {tag:'GREEN ARROW', art:'green', caption:'A green arrow points left, while a person is waiting at the crosswalk on the street you will enter.', q:'What does the green arrow mean?', a:['You may turn in the arrow direction, after confirming the crosswalk is clear','You can turn without checking the crosswalk','You must wait for a circular green light'], correct:0, note:'A green arrow gives a protected direction of travel, but always scan the crosswalk and intersection before moving.'}
 ];
-let order = [...scenarios.keys()], index = 0, answered = false;
-let saved = JSON.parse(localStorage.getItem('rightWayProgress') || '{"mastered":[],"streak":0}');
+function shuffle(items){for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}return items}
+let order = shuffle([...scenarios.keys()]), index = 0, answered = false;
+let saved = JSON.parse(localStorage.getItem('rightWayProgress') || '{"mastered":[]}');
+delete saved.streak; localStorage.setItem('rightWayProgress',JSON.stringify(saved));
 const $ = id => document.getElementById(id);
 function current(){ return scenarios[order[index]] }
 function render(){
   const s=current(); answered=false;
   $('scene-tag').textContent=s.tag; $('scene-number').textContent=`SCENE ${String(index+1).padStart(2,'0')}`; $('scene-caption').textContent=s.caption; $('question').textContent=s.q;
   $('session-count').textContent=String(index+1).padStart(2,'0'); $('session-total').textContent=String(order.length).padStart(2,'0'); $('progress-fill').style.width=`${index/order.length*100}%`;
-  $('streak').textContent=saved.streak; $('footer-score').textContent=`${saved.mastered.length} mastered`;
+  $('footer-score').textContent=`${saved.mastered.length} mastered`;
   $('feedback').hidden=true; $('next-button').disabled=true; $('next-button').innerHTML='Choose an answer <span>→</span>';
   $('answers').innerHTML=''; s.a.forEach((text,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="answer-key">${String.fromCharCode(65+i)}</span><span>${text}</span>`;b.onclick=()=>choose(i);$('answers').append(b)});
   setArt(s.art);
 }
 function choose(i){if(answered)return;answered=true;const s=current(), good=i===s.correct;const buttons=[...document.querySelectorAll('.answer')];buttons.forEach((b,n)=>{b.disabled=true;if(n===s.correct)b.classList.add('correct');if(n===i&&!good)b.classList.add('wrong')});
-  if(good){saved.streak++;if(!saved.mastered.includes(order[index]))saved.mastered.push(order[index])}else saved.streak=0;
-  localStorage.setItem('rightWayProgress',JSON.stringify(saved));$('streak').textContent=saved.streak;$('footer-score').textContent=`${saved.mastered.length} mastered`;
+  if(good&&!saved.mastered.includes(order[index]))saved.mastered.push(order[index]);
+  localStorage.setItem('rightWayProgress',JSON.stringify(saved));$('footer-score').textContent=`${saved.mastered.length} mastered`;
   $('feedback').hidden=false;$('feedback-icon').textContent=good?'✓':'!';$('feedback-icon').className=`feedback-icon ${good?'':'bad'}`;$('feedback-title').textContent=good?'Exactly right.':'Close — here is the safer call.';$('feedback-text').textContent=s.note;$('next-button').disabled=false;$('next-button').innerHTML=index===order.length-1?'See your results <span>→</span>':'Next situation <span>→</span>';
 }
 function setArt(type){const art=$('intersection-art'),carA=art.querySelector('.car-a'),carB=art.querySelector('.car-b');const visuals={fourway:{cars:['a','b'],people:['wait'],colors:['#f6d959','#eb7953']},left:{cars:['a','b'],people:[],colors:['#a9d5e7','#f2885d']},pedestrian:{cars:['a'],people:['cross','wait'],colors:['#8acb9b']},yield:{cars:['b'],people:[],colors:['','#aa9be8']},red:{cars:[],people:['wait'],colors:[]},uncontrolled:{cars:['b'],people:[],colors:['','#5caed3']},emergency:{cars:['a'],people:[],colors:['#d6f341']},stop:{cars:[],people:['bike'],colors:[]},green:{cars:['a'],people:[],colors:['#f5bd55']}};const arrows={fourway:['↓','←','↑'],left:['↓','←','↰'],pedestrian:['↓','←','↱'],yield:['↓','←','↺'],red:['↓','←','↱'],uncontrolled:['↓','←','↑'],emergency:['↓','←','↑'],stop:['↓','←','↰'],green:['↓','←','↰']};const v=visuals[type];art.dataset.scene=type;art.querySelectorAll('.person').forEach(x=>x.style.display='none');carA.style.display=v.cars.includes('a')?'block':'none';carB.style.display=v.cars.includes('b')?'block':'none';carA.style.background=v.colors[0]||'';carA.textContent=type==='emergency'?'✚':'▰';carB.style.background=v.colors[1]||'';
   [art.querySelector('.movement-a'),art.querySelector('.movement-b'),art.querySelector('.movement-you')].forEach((el,i)=>{el.textContent=arrows[type][i];el.style.display=i<2&&!v.cars.includes(i===0?'a':'b')?'none':'block'});v.people.forEach(kind=>art.querySelector(`.person-${kind},.cyclist`).style.display='block'); }
-$('next-button').onclick=()=>{if(!answered)return;if(index===order.length-1){index=0;order.sort(()=>Math.random()-.5)}else index++;render()};
+$('next-button').onclick=()=>{if(!answered)return;if(index===order.length-1){index=0;order=shuffle([...scenarios.keys()])}else index++;render()};
 document.querySelectorAll('.nav-link').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav-link').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(`${b.dataset.view}-view`).classList.add('active')});
-$('reset-progress').onclick=()=>{if(confirm('Reset mastered cards and streak?')){saved={mastered:[],streak:0};localStorage.setItem('rightWayProgress',JSON.stringify(saved));render()}};
 const study = scenarios.map((s,i)=>`<article class="study-card" tabindex="0"><span class="card-number">${String(i+1).padStart(2,'0')}</span><h3>${s.tag.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}</h3><p class="study-detail">${s.note}</p></article>`).join('');$('study-grid').innerHTML=study;document.querySelectorAll('.study-card').forEach(c=>{c.onclick=()=>c.classList.toggle('revealed');c.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')c.classList.toggle('revealed')}});render();
