@@ -15,6 +15,7 @@ let persisted={};try{persisted=JSON.parse(localStorage.getItem('rightWayProgress
 let saved={mastered:Array.isArray(persisted.mastered)?persisted.mastered:[]};
 const $ = id => document.getElementById(id);
 function current(){ return scenarios[order[index]] }
+function setSignals(art,type){const plans={left:{north:'green',south:'green',east:'red',west:'red'},pedestrian:{north:'green',south:'green',east:'red',west:'red'},red:{north:'green',south:'red',east:'red',west:'red'},emergency:{north:'green',south:'red',east:'red',west:'red'},green:{north:'red',south:'green',east:'red',west:'red'}};const plan=plans[type];art.querySelectorAll('.traffic-light').forEach(light=>{const direction=['north','south','east','west'].find(name=>light.classList.contains(name));const state=plan?.[direction];light.style.display=state?'grid':'none';light.dataset.state=state||'';light.querySelectorAll('i').forEach((lamp,index)=>lamp.classList.toggle('on',(state==='red'&&index===0)||(state==='yellow'&&index===1)||(state==='green'&&index===2)))});}
 function render(){
   const s=current(); answered=false;
   $('scene-tag').textContent=s.tag; $('scene-number').textContent=`SCENE ${String(index+1).padStart(2,'0')}`; $('scene-caption').textContent=s.caption; $('question').textContent=s.q;
@@ -22,7 +23,7 @@ function render(){
   $('footer-score').textContent=`${saved.mastered.length} mastered`;
   $('feedback').hidden=true; $('feedback').style.setProperty('display','none','important'); $('next-button').disabled=true; $('next-button').innerHTML='Choose an answer <span>→</span>';
   $('answers').innerHTML=''; s.a.forEach((text,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="answer-key">${String.fromCharCode(65+i)}</span><span>${text}</span>`;b.onclick=()=>choose(i);$('answers').append(b)});
-  setArt(s.art);
+  setArt(s.art);setSignals($('intersection-art'),s.art);
 }
 function choose(i){if(answered)return;answered=true;const s=current(), good=i===s.correct;const buttons=[...document.querySelectorAll('.answer')];buttons.forEach((b,n)=>{b.disabled=true;if(n===s.correct)b.classList.add('correct');if(n===i&&!good)b.classList.add('wrong')});
   if(good&&!saved.mastered.includes(order[index]))saved.mastered.push(order[index]);

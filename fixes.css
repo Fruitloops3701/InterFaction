@@ -82,3 +82,11 @@
 
 /* Feedback is shown only after an answer is chosen. */
 .feedback[hidden] { display:none; }
+
+/* Each signal is placed beside the approach and controls that approach's lane. */
+.traffic-light.north { top:52px; left:calc(50% - 80px); }
+.traffic-light.south { bottom:52px; left:calc(50% + 64px); }
+.traffic-light.east { top:calc(50% - 78px); right:52px; }
+.traffic-light.west { top:calc(50% + 50px); left:52px; }
+/* In the protected-left-turn drill, the south signal includes its green arrow. */
+.intersection-art[data-scene="green"] .traffic-light.south::after { content:'←'; position:absolute; top:20px; left:-2px; color:#a9e363; font:700 16px/1 var(--sans); text-shadow:0 0 7px #a9e363; }
