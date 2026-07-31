@@ -11,8 +11,8 @@ const scenarios = [
 ];
 function shuffle(items){for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}return items}
 let order = shuffle([...scenarios.keys()]), index = 0, answered = false;
-let saved = JSON.parse(localStorage.getItem('rightWayProgress') || '{"mastered":[]}');
-delete saved.streak; localStorage.setItem('rightWayProgress',JSON.stringify(saved));
+let persisted={};try{persisted=JSON.parse(localStorage.getItem('rightWayProgress')||'{}')}catch{persisted={}}
+let saved={mastered:Array.isArray(persisted.mastered)?persisted.mastered:[]};
 const $ = id => document.getElementById(id);
 function current(){ return scenarios[order[index]] }
 function render(){
@@ -26,7 +26,7 @@ function render(){
 }
 function choose(i){if(answered)return;answered=true;const s=current(), good=i===s.correct;const buttons=[...document.querySelectorAll('.answer')];buttons.forEach((b,n)=>{b.disabled=true;if(n===s.correct)b.classList.add('correct');if(n===i&&!good)b.classList.add('wrong')});
   if(good&&!saved.mastered.includes(order[index]))saved.mastered.push(order[index]);
-  localStorage.setItem('rightWayProgress',JSON.stringify(saved));$('footer-score').textContent=`${saved.mastered.length} mastered`;
+  try{localStorage.setItem('rightWayProgress',JSON.stringify(saved))}catch{}$('footer-score').textContent=`${saved.mastered.length} mastered`;
   $('feedback').hidden=false;$('feedback-icon').textContent=good?'✓':'!';$('feedback-icon').className=`feedback-icon ${good?'':'bad'}`;$('feedback-title').textContent=good?'Exactly right.':'Close — here is the safer call.';$('feedback-text').textContent=s.note;$('next-button').disabled=false;$('next-button').innerHTML=index===order.length-1?'See your results <span>→</span>':'Next situation <span>→</span>';
 }
 function setArt(type){const art=$('intersection-art'),carA=art.querySelector('.car-a'),carB=art.querySelector('.car-b');const visuals={fourway:{cars:['a','b'],people:['wait'],colors:['#f6d959','#eb7953']},left:{cars:['a','b'],people:[],colors:['#a9d5e7','#f2885d']},pedestrian:{cars:['a'],people:['cross','wait'],colors:['#8acb9b']},yield:{cars:['b'],people:[],colors:['','#aa9be8']},red:{cars:[],people:['wait'],colors:[]},uncontrolled:{cars:['b'],people:[],colors:['','#5caed3']},emergency:{cars:['a'],people:[],colors:['#d6f341']},stop:{cars:[],people:['bike'],colors:[]},green:{cars:['a'],people:[],colors:['#f5bd55']}};const arrows={fourway:['↓','←','↑'],left:['↓','←','↰'],pedestrian:['↓','←','↱'],yield:['↓','←','↺'],red:['↓','←','↱'],uncontrolled:['↓','←','↑'],emergency:['↓','←','↑'],stop:['↓','←','↰'],green:['↓','←','↰']};const v=visuals[type];art.dataset.scene=type;art.querySelectorAll('.person').forEach(x=>x.style.display='none');carA.style.display=v.cars.includes('a')?'block':'none';carB.style.display=v.cars.includes('b')?'block':'none';carA.style.background=v.colors[0]||'';carA.textContent=type==='emergency'?'✚':'▰';carB.style.background=v.colors[1]||'';
