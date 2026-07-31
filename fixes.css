@@ -60,3 +60,12 @@
 .person-wait { right:38px; top:53px; }
 .cyclist { right:38px; bottom:43px; font-size:25px; }
 .intersection-art:not([data-scene="stop"]) .cyclist { display:none !important; }
+
+/* Match the vehicle scale to the two-lane road, and center both lane dividers. */
+.intersection-art .road.vertical::after { left: calc(50% - 1.5px); }
+.intersection-art .car { width:30px; height:52px; padding-top:17px; }
+.intersection-art .you-car { width:34px; height:54px; left:calc(50% + 13px); padding-top:20px; }
+.intersection-art .car-a { left:calc(50% - 45px); }
+.intersection-art .car-b { top:calc(50% - 52px); }
+.intersection-art .movement-a { left:calc(50% - 40px); }
+.intersection-art .movement-you { left:calc(50% + 22px); }
