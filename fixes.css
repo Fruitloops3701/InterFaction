@@ -35,3 +35,21 @@
 .intersection-art .movement-a { left: calc(50% - 40px); }
 .intersection-art .movement-b { right: 74px; left: auto; top: calc(50% - 36px); }
 .intersection-art .movement-you { left: calc(50% + 20px); }
+
+/* Scenario-specific traffic control and paths. */
+.control-sign { display:none; position:absolute; z-index:6; place-items:center; color:#fff; font:600 7px/1 var(--mono); letter-spacing:-.04em; }
+.stop-sign { top:49px; left:calc(50% - 91px); width:29px; height:29px; background:#d9563c; clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%); }
+.yield-sign { top:48px; left:calc(50% - 14px); width:30px; height:27px; padding-top:7px; background:#f5f1df; color:#b94e37; border:3px solid #d9563c; clip-path:polygon(50% 100%,0 0,100% 0); }
+.intersection-art[data-scene="fourway"] .traffic-light,
+.intersection-art[data-scene="uncontrolled"] .traffic-light,
+.intersection-art[data-scene="yield"] .traffic-light,
+.intersection-art[data-scene="stop"] .traffic-light { display:none; }
+.intersection-art[data-scene="fourway"] .stop-sign,
+.intersection-art[data-scene="stop"] .stop-sign { display:grid; }
+.intersection-art[data-scene="yield"] .yield-sign { display:grid; }
+.intersection-art[data-scene="pedestrian"] .movement-you,
+.intersection-art[data-scene="red"] .movement-you { color:#f7dc55; }
+.intersection-art[data-scene="left"] .movement-you,
+.intersection-art[data-scene="green"] .movement-you { color:#d6f341; font-size:28px; }
+.intersection-art[data-scene="yield"] .movement-you { color:#f7dc55; }
+.intersection-art[data-scene="emergency"] .movement-a { color:#d6f341; }
