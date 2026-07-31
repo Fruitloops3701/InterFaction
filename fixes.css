@@ -60,6 +60,9 @@
 .person-wait { right:38px; top:53px; }
 .cyclist { right:38px; bottom:43px; font-size:25px; }
 .intersection-art:not([data-scene="stop"]) .cyclist { display:none !important; }
+.person-cross::after,.person-wait::after { position:absolute; left:50%; transform:translateX(-50%); padding:2px 4px; border-radius:3px; color:#fff; background:#17231f; font:500 7px var(--mono); letter-spacing:.05em; white-space:nowrap; }
+.person-cross::after { content:'CROSSING'; top:24px; }
+.person-wait::after { content:'WAITING'; top:24px; }
 
 /* Match the vehicle scale to the two-lane road, and center both lane dividers. */
 .intersection-art .road.vertical::after { left: calc(50% - 1.5px); }
