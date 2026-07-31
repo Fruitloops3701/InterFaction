@@ -53,3 +53,10 @@
 .intersection-art[data-scene="green"] .movement-you { color:#d6f341; font-size:28px; }
 .intersection-art[data-scene="yield"] .movement-you { color:#f7dc55; }
 .intersection-art[data-scene="emergency"] .movement-a { color:#d6f341; }
+
+/* Road users appear only when the prompt calls for them. */
+.person { display:none; position:absolute; z-index:7; font-size:22px; filter:drop-shadow(0 1px 1px rgba(23,35,31,.35)); }
+.person-cross { left:calc(50% - 12px); top:calc(50% - 22px); }
+.person-wait { right:38px; top:53px; }
+.cyclist { right:38px; bottom:43px; font-size:25px; }
+.intersection-art:not([data-scene="stop"]) .cyclist { display:none !important; }
